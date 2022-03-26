@@ -4,7 +4,7 @@ import {Cell} from '../@types/Cell'
 
 import {simulationDefaults} from '../constants/simulation'
 
-export const cell = (id = nanoid(), ctx = simulationDefaults): Cell => ({
+export const createCell = (id = nanoid(), ctx = simulationDefaults): Cell => ({
   id,
   volume: ctx.ecoli.volume,
 })
