@@ -1,9 +1,9 @@
+import {nanoid} from 'nanoid'
+
 import {simulationDefaults} from '../constants/simulation'
 
 import {Cell} from '../@types/Cell'
 import {SimulationState} from '../@types/simulation/SimulationState'
-import {createCell} from '../utils/cell'
-import {nanoid} from 'nanoid'
 
 export function step(
   state: SimulationState,
