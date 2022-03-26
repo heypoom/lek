@@ -1,5 +1,6 @@
 import {nanoid} from 'nanoid'
 
+import {intRNG, rng} from '../utils/random'
 import {simulationDefaults} from '../constants/simulation'
 
 import {Cell} from '../@types/Cell'
@@ -11,16 +12,26 @@ export function step(
 ): SimulationState {
   let cells: Cell[] = []
 
+  const rand = rng(config.seed)
+  const randomInt = () => Math.floor(rand() * 10)
+
   for (const cell of state.cells) {
-    const volumeLimit = config.ecoli.volume * 2
+    const fluctuation = randomInt() * 0.01 - config.ecoli.division.variance
+    const cellDivisionThreshold = config.ecoli.division.mean + fluctuation
 
-    if (cell.volume > volumeLimit) {
-      // TODO: calculate variance in cell division
-      const volumeA = cell.volume / 2
-      const volumeB = cell.volume / 2
+    if (cell.volume > cellDivisionThreshold) {
+      // Reduce the cell volumn by how much. Range: 0 - 0.55.
+      const reductionRatio = 0.5 + 0.1 * (rand() - 0.5)
 
-      cells.push({...cell, volume: volumeA})
-      cells.push({id: nanoid(), volume: volumeB})
+      // Distribute the cell volume across parent and daughter
+      const parentVolumn = reductionRatio * cell.volume
+      const daughterVolumn = (1 - reductionRatio) * cell.volume
+
+      // Parent's Cell (me)
+      cells.push({...cell, volume: parentVolumn})
+
+      // Daughter's Cell
+      cells.push({id: nanoid(), volume: daughterVolumn})
 
       continue
     }

@@ -1,19 +1,22 @@
 export interface EColiConfig {
-	/* Growth rate in reactions per minute */
-	growthRate: number;
+  /* Growth rate in reactions per minute */
+  growthRate: number
 
-	/** Initial volume in femtoliters */
-	volume: number;
+  /** Initial volume in femtoliters */
+  volume: number
 
-	/** Cell division size */
-	divisionSize: {
-		mean: number;
-		variance: number;
-	};
+  /** Randomness factor for cell division */
+  division: {
+    /** Mean should typically be double the volume (in femtoliters) */
+    mean: number
 
-	/** Diameter in micrometers */
-	diameter: number;
+    /** Variance should be between 0 - 1, will affect the fluctuation in cell division logic. */
+    variance: number
+  }
 
-	/** Pixels per micrometers */
-	scale: number;
+  /** Diameter in micrometers */
+  diameter: number
+
+  /** Pixels per micrometers */
+  scale: number
 }
