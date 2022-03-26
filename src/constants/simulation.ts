@@ -4,6 +4,5 @@ import {SimulationConfig} from '../@types/simulation/SimulationConfig'
 
 export const simulationDefaults: SimulationConfig = {
   ecoli: ecoliDefaults,
-  minutePerTick: 0.1,
-  seed: 'hackerhouse',
+  minutePerTick: 0.02,
 }

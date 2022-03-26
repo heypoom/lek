@@ -1,6 +1,5 @@
 import {nanoid} from 'nanoid'
 
-import {intRNG, rng} from '../utils/random'
 import {simulationDefaults} from '../constants/simulation'
 
 import {Cell} from '../@types/Cell'
@@ -10,18 +9,19 @@ export function step(
   state: SimulationState,
   config = simulationDefaults
 ): SimulationState {
+  const rand = state.rand
+
   let cells: Cell[] = []
 
-  const rand = rng(config.seed)
-  const randomInt = () => Math.floor(rand() * 10)
-
   for (const cell of state.cells) {
-    const fluctuation = randomInt() * 0.01 - config.ecoli.division.variance
+    const fluctuation =
+      Math.floor(rand.random() * 10) * 0.01 - config.ecoli.division.variance
+
     const cellDivisionThreshold = config.ecoli.division.mean + fluctuation
 
     if (cell.volume > cellDivisionThreshold) {
       // Reduce the cell volumn by how much. Range: 0 - 0.55.
-      const reductionRatio = 0.5 + 0.1 * (rand() - 0.5)
+      const reductionRatio = 0.5 + 0.1 * (rand.random() - 0.5)
 
       // Distribute the cell volume across parent and daughter
       const parentVolumn = reductionRatio * cell.volume
@@ -36,14 +36,13 @@ export function step(
       continue
     }
 
-    // TODO: add randomness factor into minute per tick
-    const volume =
-      cell.volume + config.ecoli.growthRate * config.minutePerTick * cell.volume
+    // Minute per tick with randomness factor
+    const dt = state.rand.exponential(1 / config.minutePerTick)
+
+    const volume = cell.volume + config.ecoli.growthRate * dt * cell.volume
 
     cells.push({...cell, volume})
   }
 
-  return {
-    cells,
-  }
+  return {cells, rand}
 }

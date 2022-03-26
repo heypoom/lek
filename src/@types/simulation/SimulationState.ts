@@ -1,6 +1,7 @@
-import { Cell } from "../Cell";
+import {Cell} from '../Cell'
+import {Random} from '../../utils/random'
 
 export interface SimulationState {
-	cells: Cell[]
+  cells: Cell[]
+  rand: Random
 }
-

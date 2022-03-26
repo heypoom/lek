@@ -1,30 +1,44 @@
 import {step} from '../src/core/simulation'
 import {createCell} from '../src/utils/cell'
 
+import {createSimulation} from '../src/utils/state'
 import {simulationDefaults} from '../src/constants/simulation'
 
-import {SimulationState} from '../src/@types/simulation/SimulationState'
 import {SimulationConfig} from '../src/@types/simulation/SimulationConfig'
 
 describe('cell growth', () => {
   it('should grow the cell over time', () => {
-    const config: SimulationConfig = {...simulationDefaults, seed: 'testing'}
+    const config: SimulationConfig = {...simulationDefaults}
 
-    let state: SimulationState = {cells: [createCell('A')]}
+    let state = createSimulation({seed: 'hackerhouse', cells: [createCell()]})
+
+    // Check the default volumn of the cell.
     expect(state.cells[0].volume).toBe(1.57)
 
-    // 20 minutes takes 200 tick, as 1 tick takes 6 seconds
-    // (at default of 0.1 minute per tick)
-    for (let i = 0; i < 200; i++) state = step(state, config)
+    // Proceed 114 ticks.
+    for (let i = 0; i < 114; i++) state = step(state, config)
 
-    expect(state.cells[0].volume.toFixed(2)).toBe('3.14')
+    // Check if the cell is not yet divided.
+    expect(state.cells.length).toBe(1)
 
-    // Proceed an additional 6 iterations (to account for variance)
-    // n = 5, fluctuation ~= 0.045
-    for (let i = 0; i < 6; i++) state = step(state, config) //?
+    // Check if the volume before division is almost at the division threshold
+    const volumeBeforeDivision = state.cells[0].volume
+    expect(volumeBeforeDivision.toFixed(3)).toBe('3.148')
 
+    // Advance an iteration to trigger cell division.
+    // Expect the cells to split up.
+    state = step(state, config)
     expect(state.cells.length).toBe(2)
-    expect(state.cells[0].volume.toFixed(2)).toBe('1.60')
-    expect(state.cells[1].volume.toFixed(2)).toBe('1.59')
+
+    // Check parent cell's volumn
+    const parent = state.cells[0].volume
+    expect(parent.toFixed(3)).toBe('1.593')
+
+    // Check daughter cell's volumn
+    const daughter = state.cells[1].volume
+    expect(daughter.toFixed(3)).toBe('1.555')
+
+    // Parent and daughter volumn should add up to the volumn before the cell division.
+    expect(parent + daughter).toBe(volumeBeforeDivision)
   })
 })
