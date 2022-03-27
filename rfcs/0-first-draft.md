@@ -1,36 +1,32 @@
 # Sample API
 
 ```ts
-import {Simulation, Ecoli} from 'lek'
+import {createSimulation, createCell} from 'lek'
 
-const s = Simulation({
-  timeStep: 0.1,
-  chemostat: true,
+const {state, config} = createSimulation({chemostat: true, minutesPerTick: 0.1})
+config.ecoli.division = {mean: 2, variance: 0.002}
+
+const cell = createCell({
+	x: 0,
+	y: 0,
+
+	tick(cell) {
+		// Divide the cell if the volume exceeds.
+		if (cell.volume > 3.14) cell.divide()
+	})
 })
 
-const ecoli = Ecoli({x: 0, y: 0})
-ecoli.division.size = {mean: 2, variance: 0.02}
-
-ecoli.onTick((cell) => {
-  if (cell.rate === 1 && cell.volume > 3.14) cell.divide()
-})
+state.cells.push(cell)
 ```
 
 # Data Structure
 
 ```ts
 Simulation({
-  organisms: {
-    ecoli: {
+  cells: {
+    A: {
       x: 0,
       y: 0,
-
-      division: {
-        size: {
-          mean: 2,
-          variance: 0.02,
-        },
-      },
 
       tick(cell) {
         if (cell.rate === 1 && cell.volume > 3.14) cell.divide()
@@ -46,20 +42,12 @@ Simulation({
 # Molecular Biology
 
 ```ts
-import {Simulation, Ecoli} from 'lek'
-
-const s = Simulation({timeStep: 0.1})
-
-const ecoli = Ecoli({x: 0, y: 0})
-
 // Set the GFP (Green Fluorescent Protein) to 1000
 // Affects the color of the cell
-ecoli.proteins.green = 1000
-
-ecoli.onTick()
+cell.proteins.gfp = 1000
 ```
 
-# Simulation: ECS Model (Entity-Component-System)
+# Proposal: ECS Model (Entity-Component-System)
 
 - Each micro-organism (e.g. an e-coli) is an Entity
 
@@ -88,7 +76,7 @@ Sequence: tick update function -> cellular division -> protein distribution
 
 # Routine on each cell
 
-System that operates on all Cell entity
+System that operates on all Cell entity.
 
 ```
 Cell grows at a constant rate
@@ -96,12 +84,4 @@ Cell grows at a constant rate
   Then the cell divides itself,
 	  producing 2 cells of approx. same size with small randomness factor
     one of them is parent, one of them is daughter
-```
-
-```ts
-function step(cell: Cell) {
-  cell.growable() ? cell.grow() : cell.divide()
-}
-
-step()
 ```

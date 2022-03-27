@@ -1,8 +1,8 @@
 import {ecoliDefaults} from './ecoli'
 
-import {SimulationConfig} from '../@types/simulation/SimulationConfig'
+import {SimulationOptions} from '../@types/simulation/SimulationOptions'
 
-export const simulationDefaults: SimulationConfig = {
+export const simulationDefaults: SimulationOptions = {
   ecoli: ecoliDefaults,
   minutePerTick: 0.02,
 }

@@ -2,15 +2,11 @@ import {step} from '../src/core/simulation'
 import {createCell} from '../src/utils/cell'
 
 import {createSimulation} from '../src/utils/state'
-import {simulationDefaults} from '../src/constants/simulation'
-
-import {SimulationConfig} from '../src/@types/simulation/SimulationConfig'
 
 describe('cell growth', () => {
   it('should grow the cell over time', () => {
-    const config: SimulationConfig = {...simulationDefaults}
-
-    let state = createSimulation({seed: 'hackerhouse', cells: [createCell()]})
+    let {state, config} = createSimulation()
+    state.cells.push(createCell())
 
     // Check the default volumn of the cell.
     expect(state.cells[0].volume).toBe(1.57)
