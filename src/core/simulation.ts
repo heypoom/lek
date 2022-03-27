@@ -1,13 +1,13 @@
 import {nanoid} from 'nanoid'
 
-import {simulationDefaults} from '../constants/simulation'
-
 import {Cell} from '../@types/Cell'
-import {SimulationState} from '../@types/simulation/SimulationState'
+import {SimulationState} from '../@types'
+
+import {simulationDefaults} from '../constants/simulation'
 
 export function step(
   state: SimulationState,
-  config = simulationDefaults
+  options = simulationDefaults
 ): SimulationState {
   const rand = state.rand
 
@@ -15,9 +15,9 @@ export function step(
 
   for (const cell of state.cells) {
     const fluctuation =
-      Math.floor(rand.random() * 10) * 0.01 - config.ecoli.division.variance
+      Math.floor(rand.random() * 10) * 0.01 - options.ecoli.division.variance
 
-    const cellDivisionThreshold = config.ecoli.division.mean + fluctuation
+    const cellDivisionThreshold = options.ecoli.division.mean + fluctuation
 
     if (cell.volume > cellDivisionThreshold) {
       // Reduce the cell volumn by how much. Range: 0 - 0.55.
@@ -37,9 +37,9 @@ export function step(
     }
 
     // Minute per tick with randomness factor
-    const dt = state.rand.exponential(1 / config.minutePerTick)
+    const dt = state.rand.exponential(1 / options.minutePerTick)
 
-    const volume = cell.volume + config.ecoli.growthRate * dt * cell.volume
+    const volume = cell.volume + options.ecoli.growthRate * dt * cell.volume
 
     cells.push({...cell, volume})
   }

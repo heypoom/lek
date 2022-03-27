@@ -5,14 +5,14 @@ import {createSimulation} from '../src/utils/state'
 
 describe('cell growth', () => {
   it('should grow the cell over time', () => {
-    let {state, config} = createSimulation()
+    let {state, options} = createSimulation()
     state.cells.push(createCell())
 
     // Check the default volumn of the cell.
     expect(state.cells[0].volume).toBe(1.57)
 
     // Proceed 114 ticks.
-    for (let i = 0; i < 114; i++) state = step(state, config)
+    for (let i = 0; i < 114; i++) state = step(state, options)
 
     // Check if the cell is not yet divided.
     expect(state.cells.length).toBe(1)
@@ -23,7 +23,7 @@ describe('cell growth', () => {
 
     // Advance an iteration to trigger cell division.
     // Expect the cells to split up.
-    state = step(state, config)
+    state = step(state, options)
     expect(state.cells.length).toBe(2)
 
     // Check parent cell's volumn

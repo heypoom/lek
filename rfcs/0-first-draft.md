@@ -3,8 +3,8 @@
 ```ts
 import {createSimulation, createCell} from 'lek'
 
-const {state, config} = createSimulation({chemostat: true, minutesPerTick: 0.1})
-config.ecoli.division = {mean: 2, variance: 0.002}
+const { state, options } = createSimulation({chemostat: true, minutesPerTick: 0.1})
+options.ecoli.division = {mean: 2, variance: 0.002}
 
 const cell = createCell({
 	x: 0,
