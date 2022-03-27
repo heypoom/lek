@@ -1,12 +1,18 @@
-import {Studio} from './Studio'
+import {Suspense} from 'react'
+import {Provider} from 'jotai'
+
 import GlobalStyles from './GlobalStyles'
+
+import {Studio} from '../modules/studio/Studio'
 
 export const App = () => {
   return (
-    <div>
-      <GlobalStyles />
+    <Provider>
+      <Suspense fallback="Loading">
+        <GlobalStyles />
 
-      <Studio />
-    </div>
+        <Studio />
+      </Suspense>
+    </Provider>
   )
 }
