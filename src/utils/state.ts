@@ -14,10 +14,10 @@ type Options = PartialDeep<SimulationOptions> & {
 }
 
 export const createSimulation = (config: Options = {}): SimulationContext => {
-  const rand = new Random(config.seed ?? DEFAULT_SEED)
+  const rng = new Random(config.seed ?? DEFAULT_SEED)
 
   return {
-    state: {cells: [], rand, ...config.state},
+    state: {cells: [], rng, ...config.state},
     options: merge(simulationDefaults, config),
   }
 }
