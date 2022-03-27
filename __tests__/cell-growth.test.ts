@@ -1,4 +1,6 @@
-import {step, createCell, createSimulation} from '../src/core'
+import {step, createSimulation} from '../src/core'
+
+import {createCell} from './utils/createCell'
 
 describe('cell growth', () => {
   it('should grow the cell over time', () => {

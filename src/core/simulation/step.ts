@@ -30,7 +30,7 @@ export function step(
       cells.push({...cell, volume: parentVolumn})
 
       // Daughter's Cell
-      cells.push({id: nanoid(), volume: daughterVolumn})
+      cells.push({id: nanoid(), volume: daughterVolumn, x: 0, y: 0})
 
       continue
     }

@@ -1,7 +1,8 @@
 import {atom} from 'jotai'
 import {clone} from 'lodash'
+import {nanoid} from 'nanoid'
 
-import {createCell, createSimulation, step} from '../core'
+import {createSimulation, step} from '../core'
 
 const defaults = createSimulation()
 
@@ -27,6 +28,18 @@ export const stepSimulationAtom = atom(
 
 export const addCellAtom = atom(null, (get, set, update) => {
   const state = get(simulationStateAtom)
+  const options = get(simulationOptionsAtom)
 
-  set(simulationStateAtom, {...state, cells: [...state.cells, createCell()]})
+  const cell = {
+    id: nanoid(),
+    volume: options.ecoli.volume,
+
+    x: 0,
+    y: 0,
+  }
+
+  set(simulationStateAtom, {
+    ...state,
+    cells: [...state.cells, cell],
+  })
 })

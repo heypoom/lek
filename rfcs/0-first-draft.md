@@ -1,15 +1,12 @@
 # Sample API
 
 ```ts
-import {createSimulation, createCell} from 'lek'
+import {createSimulation} from 'lek'
 
 const { state, options } = createSimulation({chemostat: true, minutesPerTick: 0.1})
 options.ecoli.division = {mean: 2, variance: 0.002}
 
 const cell = createCell({
-	x: 0,
-	y: 0,
-
 	tick(cell) {
 		// Divide the cell if the volume exceeds.
 		if (cell.volume > 3.14) cell.divide()

@@ -1,5 +1,4 @@
 import {useAtom} from 'jotai'
-import {step} from '../../core'
 
 import {
   addCellAtom,
