@@ -1,3 +1,12 @@
+import {Studio} from './Studio'
+import GlobalStyles from './GlobalStyles'
+
 export const App = () => {
-  return <div>Hello!</div>
+  return (
+    <div>
+      <GlobalStyles />
+
+      <Studio />
+    </div>
+  )
 }
