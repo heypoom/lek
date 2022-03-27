@@ -7,14 +7,12 @@ import {simulationDefaults} from '../constants/simulation'
 
 import {SimulationOptions, SimulationState, SimulationContext} from '../@types'
 
-const DEFAULT_SEED = 'hackerhouse'
-
 type Options = PartialDeep<SimulationOptions> & {
   state?: Partial<SimulationState>
 }
 
 export const createSimulation = (config: Options = {}): SimulationContext => {
-  const rng = new Random(config.seed ?? DEFAULT_SEED)
+  const rng = new Random(config.seed ?? simulationDefaults.seed)
 
   return {
     state: {cells: [], rng, ...config.state},
