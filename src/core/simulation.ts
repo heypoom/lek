@@ -44,5 +44,5 @@ export function step(
     cells.push({...cell, volume})
   }
 
-  return {cells, rng: rng}
+  return {cells, rng}
 }
