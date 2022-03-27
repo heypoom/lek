@@ -1,6 +1,6 @@
 import {ecoliDefaults} from './ecoli'
 
-import {SimulationOptions} from '../@types/simulation/SimulationOptions'
+import {SimulationOptions} from '../@types'
 
 export const DEFAULT_SEED = 'hackerhouse'
 

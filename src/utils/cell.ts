@@ -1,6 +1,6 @@
 import {nanoid} from 'nanoid'
 
-import {Cell} from '../@types/Cell'
+import {Cell} from '../@types'
 
 import {simulationDefaults} from '../constants/simulation'
 

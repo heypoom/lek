@@ -1,4 +1,4 @@
-import {EColiConfig} from '../@types/EColiConfig'
+import {EColiConfig} from '../@types'
 
 export const ecoliDefaults: EColiConfig = {
   growthRate: 0.0346574,
